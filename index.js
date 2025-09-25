@@ -45,18 +45,19 @@ function generateNickname(people) {
   const result = people
     .filter((person) => {
       return (
+        // Jeśli firstName lub lastName ma mniej niż trzy znaki (pomiń znaki białe) lub nie jest typu string, nie dodawaj właściwości pseudonimu dla tej osoby.
         typeof person.firstName === "string" &&
         typeof person.lastName === "string" &&
         person.lastName !== "null" &&
-        person.firstName.length >= 2
+        person.firstName.trim().length >= 3 &&
+        person.lastName.trim().length >= 3
       );
     })
-    .map((name) => {
-      let result = name.firstName.slice(-3).split("").reverse().join("");
+    .map((person) => {
+      let result = person.firstName.slice(-3).split("").reverse().join("");
       // - Weź pierwsze trzy litery nazwiska, odwróć ich kolejność  i dodaj to do wyniku z punktu a).
-      result += name.lastName.slice(-3).split("").reverse().join("");
+      result += person.lastName.slice(-3).split("").reverse().join("");
       //   Sformatuj połączony wynik tak, aby pseudonim zaczynał się od wielkiej litery, a reszta liter była mała.
-
       let firstLetter = result[0];
       let otherLetters = result.slice(1);
 
@@ -65,10 +66,13 @@ function generateNickname(people) {
 
       result = firstLetter + otherLetters;
 
+      //   Dodaj ten pseudonim jako nową właściwość do obiektu osoby.
+      person.nickname = result;
+
       return result;
     });
 
-  console.log(result);
+  console.log(people);
 
   return result;
 }
