@@ -1,0 +1,74 @@
+// ## Zadanie 1
+
+// Treść zadania
+
+// Napisz funkcję przetwarzającą tablicę obiektów osób. Funkcja powinna generować pseudonim na podstawie określonych zasad i dodawać go do każdego obiektu osoby, gdy jest to możliwe.
+
+// Wytyczne:
+
+// - Pobierz trzy ostatnie litery imienia, odwróć ich kolejność i zapisz wynik
+// - Weź pierwsze trzy litery nazwiska, odwróć ich kolejność  i dodaj to do wyniku z punktu a).
+// - Sformatuj połączony wynik tak, aby pseudonim zaczynał się od wielkiej litery, a reszta liter była mała.
+// - Dodaj ten pseudonim jako nową właściwość do obiektu osoby.
+// - Jeśli firstName lub lastName ma mniej niż trzy znaki (pomiń znaki białe) lub nie jest typu string, nie dodawaj właściwości pseudonimu dla tej osoby.
+
+const people = [
+  {
+    firstName: false,
+    lastName: 2,
+  },
+  {
+    firstName: "Roman",
+    lastName: "Kowalski",
+  },
+
+  {
+    firstName: "Halina",
+    lastName: "Malina",
+  },
+  {
+    firstName: "B",
+    lastName: "22",
+  },
+  {
+    firstName: "Jan",
+    lastName: "Nowak",
+  },
+  {
+    firstName: "Kamil",
+    lastName: null,
+  },
+];
+
+// function generateNickname(people) {
+//   //   const fixedName = people.map((name) => name.firstName + 1);
+//   const fixedName = people.map((name) => {
+//     if (typeof name.firstName === "string") {
+//       return name.firstName + 1;
+//     }
+//   });
+
+//   console.log(fixedName);
+// }
+
+function generateNickname(people) {
+  // Pobierz trzy ostatnie trzy litery imienia, odwróć ich kolejność i zapisz wynik
+  const result = people
+    .filter((person) => {
+      return (
+        typeof person.firstName === "string" &&
+        typeof person.lastName === "string" &&
+        person.lastName !== "null" &&
+        person.firstName.length >= 2
+      );
+    })
+    .map((name) => {
+      const result = name.firstName.slice(-3).split("").reverse().join("");
+      return result;
+    });
+
+  console.log(result);
+  return result;
+}
+
+generateNickname(people);
