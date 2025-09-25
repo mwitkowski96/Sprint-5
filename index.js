@@ -40,17 +40,6 @@ const people = [
   },
 ];
 
-// function generateNickname(people) {
-//   //   const fixedName = people.map((name) => name.firstName + 1);
-//   const fixedName = people.map((name) => {
-//     if (typeof name.firstName === "string") {
-//       return name.firstName + 1;
-//     }
-//   });
-
-//   console.log(fixedName);
-// }
-
 function generateNickname(people) {
   // Pobierz trzy ostatnie trzy litery imienia, odwróć ich kolejność i zapisz wynik
   const result = people
@@ -63,7 +52,9 @@ function generateNickname(people) {
       );
     })
     .map((name) => {
-      const result = name.firstName.slice(-3).split("").reverse().join("");
+      let result = name.firstName.slice(-3).split("").reverse().join("");
+      // - Weź pierwsze trzy litery nazwiska, odwróć ich kolejność  i dodaj to do wyniku z punktu a).
+      result += name.lastName.slice(-3).split("").reverse().join("");
       return result;
     });
 
