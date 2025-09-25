@@ -55,10 +55,21 @@ function generateNickname(people) {
       let result = name.firstName.slice(-3).split("").reverse().join("");
       // - Weź pierwsze trzy litery nazwiska, odwróć ich kolejność  i dodaj to do wyniku z punktu a).
       result += name.lastName.slice(-3).split("").reverse().join("");
+      //   Sformatuj połączony wynik tak, aby pseudonim zaczynał się od wielkiej litery, a reszta liter była mała.
+
+      let firstLetter = result[0];
+      let otherLetters = result.slice(1);
+
+      firstLetter = firstLetter.toUpperCase();
+      otherLetters = otherLetters.toLowerCase();
+
+      result = firstLetter + otherLetters;
+
       return result;
     });
 
   console.log(result);
+
   return result;
 }
 
