@@ -41,38 +41,48 @@ const people = [
 ];
 
 function generateNickname(people) {
-  // Pobierz trzy ostatnie trzy litery imienia, odwróć ich kolejność i zapisz wynik
-  const result = people
-    .filter((person) => {
-      return (
-        // Jeśli firstName lub lastName ma mniej niż trzy znaki (pomiń znaki białe) lub nie jest typu string, nie dodawaj właściwości pseudonimu dla tej osoby.
-        typeof person.firstName === "string" &&
-        typeof person.lastName === "string" &&
-        person.lastName !== "null" &&
-        person.firstName.trim().length >= 3 &&
-        person.lastName.trim().length >= 3
-      );
-    })
-    .map((person) => {
-      let result = person.firstName.slice(-3).split("").reverse().join("");
-      // - Weź pierwsze trzy litery nazwiska, odwróć ich kolejność  i dodaj to do wyniku z punktu a).
-      result += person.lastName.slice(-3).split("").reverse().join("");
-      //   Sformatuj połączony wynik tak, aby pseudonim zaczynał się od wielkiej litery, a reszta liter była mała.
-      let firstLetter = result[0];
-      let otherLetters = result.slice(1);
+  return (
+    people
+      // Pobierz trzy ostatnie trzy litery imienia, odwróć ich kolejność i zapisz wynik
+      .filter((person) => {
+        return (
+          // Jeśli firstName lub lastName ma mniej niż trzy znaki (pomiń znaki białe) lub nie jest typu string, nie dodawaj właściwości pseudonimu dla tej osoby.
+          typeof person.firstName === "string" &&
+          typeof person.lastName === "string" &&
+          person.lastName !== "null" &&
+          person.firstName.trim().length >= 3 &&
+          person.lastName.trim().length >= 3
+        );
+      })
+      .map((person) => {
+        const lastTheeLettersOfFirstName = person.firstName
+          .slice(-3)
+          .split("")
+          .reverse()
+          .join("");
 
-      firstLetter = firstLetter.toUpperCase();
-      otherLetters = otherLetters.toLowerCase();
+        // - Weź pierwsze trzy litery nazwiska, odwróć ich kolejność  i dodaj to do wyniku z punktu a).
+        const firstThreeLettersOfLastName = person.lastName
+          .slice(3)
+          .split("")
+          .reverse()
+          .join("");
 
-      result = firstLetter + otherLetters;
+        //   Sformatuj połączony wynik tak, aby pseudonim zaczynał się od wielkiej litery, a reszta liter była mała.
+        const combinedNickname =
+          lastTheeLettersOfFirstName + firstThreeLettersOfLastName;
+        const formattedNickname =
+          combinedNickname.charAt(0).toUpperCase() +
+          combinedNickname.slice(1).toLowerCase();
 
-      //   Dodaj ten pseudonim jako nową właściwość do obiektu osoby.
-      person.nickname = result;
+        //   Dodaj ten pseudonim jako nową właściwość do obiektu osoby.
+        person.nickname = formattedNickname;
 
-      return person;
-    });
-
-  return result;
+        return person;
+      })
+  );
 }
 
-console.log(generateNickname(people));
+const peopleWithNicknames = generateNickname(people);
+
+console.log(peopleWithNicknames);
