@@ -49,12 +49,12 @@ function generateNickname(people) {
           // Jeśli firstName lub lastName ma mniej niż trzy znaki (pomiń znaki białe) lub nie jest typu string, nie dodawaj właściwości pseudonimu dla tej osoby.
           typeof person.firstName === "string" &&
           typeof person.lastName === "string" &&
-          person.lastName !== "null" &&
           person.firstName.trim().length >= 3 &&
           person.lastName.trim().length >= 3
         );
       })
       .map((person) => {
+        // Pobierz trzy ostatnie trzy litery imienia, odwróć ich kolejność i zapisz wynik
         const lastTheeLettersOfFirstName = person.firstName
           .slice(-3)
           .split("")
@@ -63,7 +63,7 @@ function generateNickname(people) {
 
         // - Weź pierwsze trzy litery nazwiska, odwróć ich kolejność  i dodaj to do wyniku z punktu a).
         const firstThreeLettersOfLastName = person.lastName
-          .slice(3)
+          .slice(0, 3)
           .split("")
           .reverse()
           .join("");
@@ -98,19 +98,22 @@ function generateNickname(people) {
 // - Użyj odpowiedniej metody do wyciagnięcia kluczy z obiektu oraz reduce w notacji łańcuchowej do zliczenia liter w kluczach.
 // - Zadbaj o to by wiek był zaokrąglony w górę (odszukaj potrzebnej informacji w internecie).
 
-// - Filtruj tablicę, aby zawierała tylko osoby z pseudonimem. <--- Zrobione w 1 zadaniu.
+// - Filtruj tablicę, aby zawierała tylko osoby z pseudonimem. <--- Zrobione w 1 zadaniu, wygenerowana tablica posiada tylko i wylacznie uzytkownikow, ktorzy maja nickname.
 const peopleWithNicknames = generateNickname(people);
 
 function modifyPeopleWithNicknames(peopleWithNicknames) {
-  return (
-    // - Oblicz liczbę liter w imieniu i nazwisku każdej osoby.
-    peopleWithNicknames.map((person, index) => {
+  //Filtrowanie zrobione dla sportu :D
+
+  return peopleWithNicknames
+    .filter((person) => person.nickname)
+    .map((person, index) => {
       const firstNameLength = person.firstName.length;
       const lastNameLength = person.lastName.length;
       const sumLength = firstNameLength + lastNameLength;
 
-      const replacement = index === 0 ? 1 : index;
+      const indexReplacement = index === 0 ? 1 : index;
 
+      // Oblicz liczbę liter w imieniu i nazwisku każdej osoby.
       //   - Jeśli suma liter jest parzysta, przypisz ją jako age.
 
       if (sumLength % 2 === 0) {
@@ -120,13 +123,27 @@ function modifyPeopleWithNicknames(peopleWithNicknames) {
       else {
         const nicknameLength = person.nickname.length;
         const totalLength = firstNameLength + lastNameLength + nicknameLength;
-        person.age = totalLength / replacement;
+        // Dodaj pole age do każdego obiektu osoby.
+        // - Zadbaj o to by wiek był zaokrąglony w górę (odszukaj potrzebnej informacji w internecie).
+        person.age = Math.ceil(totalLength / indexReplacement);
       }
 
+      //   Użyj odpowiedniej metody do wyciagnięcia kluczy z obiektu oraz reduce w notacji łańcuchowej do zliczenia liter w kluczach.
+      function sumKeyLengths(person) {
+        return Object.keys(person).reduce((acc, next) => {
+          return acc + next.length;
+        }, 0);
+      }
+
+      const totalKeyLength = sumKeyLengths(person);
+
+      //   console.log(totalKeyLength);
+
       return person;
-    })
-  );
+    });
 }
 
 const finalPeople = modifyPeopleWithNicknames(peopleWithNicknames);
-console.log(finalPeople);
+// console.log(finalPeople);
+
+console.log(peopleWithNicknames);
