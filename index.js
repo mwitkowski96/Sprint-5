@@ -143,6 +143,19 @@ function modifyPeopleWithNicknames(peopleWithNicknames) {
     });
 }
 
+// ## Zadanie 3
+
+// **Treść zadania:**
+
+// Stwórz funkcję, która analizuje tablicę osób z drugiego zadania i znajduje najczęściej występującą literę w polach firstName, lastName oraz nickname dla każdej osoby. Wynik powinien zawierać literę i jej liczbę wystąpień, a także określić, co zrobić w przypadku, gdy dwie litery mają tę samą liczbę wystąpień.
+
+// **Wytyczne:**
+
+// - Przetwarzaj każdy obiekt osoby, analizując pola firstName, lastName, i nickname.
+// - Zliczaj wystąpienia każdej litery w tych polach i znajdź najczęściej występującą literę.
+// - Jeżeli dwie lub więcej liter mają tę samą liczbę wystąpień i jest to najwyższa wartość, wybierz literę, która występuje pierwsza w alfabecie.
+// - Zwróć nową tablicę z obiektami, które zawierają imię, nazwisko, pseudonim oraz dodaj nową właściwość do każdej osoby o nazwie mostCommonLetter, której wartością będzie obiekt z kluczem litery oraz ilością jej wystąpień.
+
 const finalPeople = modifyPeopleWithNicknames(peopleWithNicknames);
 // console.log(finalPeople);
 
