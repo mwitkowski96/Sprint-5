@@ -83,6 +83,50 @@ function generateNickname(people) {
   );
 }
 
+// ## Zadanie 2
+
+// **Treść zadania:**
+
+// Stwórz funkcję, która przetworzy tablicę osób z pierwszego zadania (Należy wykorzystać wynik wywołania funkcji z pierwszego zadania), zwracając tylko osoby, które mają przypisany pseudonim oraz dodając nowe pole age do każdej osoby.
+
+// **Wytyczne:**
+
+// - Filtruj tablicę, aby zawierała tylko osoby z pseudonimem.
+// - Oblicz liczbę liter w imieniu i nazwisku każdej osoby.
+// - Jeśli suma liter jest parzysta, przypisz ją jako age. Jeśli nieparzysta, age oblicz jako sumę liter w kluczach firstName , lastName i nickname pobieranych dynamicznie podzieloną przez indeks osoby w tablicy ( jeżeli index wynosi 0 zastąp go 1 )
+// - Dodaj pole age do każdego obiektu osoby.
+// - Użyj odpowiedniej metody do wyciagnięcia kluczy z obiektu oraz reduce w notacji łańcuchowej do zliczenia liter w kluczach.
+// - Zadbaj o to by wiek był zaokrąglony w górę (odszukaj potrzebnej informacji w internecie).
+
+// - Filtruj tablicę, aby zawierała tylko osoby z pseudonimem. <--- Zrobione w 1 zadaniu.
 const peopleWithNicknames = generateNickname(people);
 
-console.log(peopleWithNicknames);
+function modifyPeopleWithNicknames(peopleWithNicknames) {
+  return (
+    // - Oblicz liczbę liter w imieniu i nazwisku każdej osoby.
+    peopleWithNicknames.map((person, index) => {
+      const firstNameLength = person.firstName.length;
+      const lastNameLength = person.lastName.length;
+      const sumLength = firstNameLength + lastNameLength;
+
+      const replacement = index === 0 ? 1 : index;
+
+      //   - Jeśli suma liter jest parzysta, przypisz ją jako age.
+
+      if (sumLength % 2 === 0) {
+        person.age = sumLength;
+      }
+      //   Jeśli nieparzysta, age oblicz jako sumę liter w kluczach firstName , lastName i nickname pobieranych dynamicznie podzieloną przez indeks osoby w tablicy ( jeżeli index wynosi 0 zastąp go 1 )
+      else {
+        const nicknameLength = person.nickname.length;
+        const totalLength = firstNameLength + lastNameLength + nicknameLength;
+        person.age = totalLength / replacement;
+      }
+
+      return person;
+    })
+  );
+}
+
+const finalPeople = modifyPeopleWithNicknames(peopleWithNicknames);
+console.log(finalPeople);
