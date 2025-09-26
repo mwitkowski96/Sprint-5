@@ -69,12 +69,10 @@ function generateNickname(people) {
       //   Dodaj ten pseudonim jako nową właściwość do obiektu osoby.
       person.nickname = result;
 
-      return result;
+      return person;
     });
-
-  console.log(people);
 
   return result;
 }
 
-generateNickname(people);
+console.log(generateNickname(people));
