@@ -157,6 +157,62 @@ function modifyPeopleWithNicknames(peopleWithNicknames) {
 // - Zwróć nową tablicę z obiektami, które zawierają imię, nazwisko, pseudonim oraz dodaj nową właściwość do każdej osoby o nazwie mostCommonLetter, której wartością będzie obiekt z kluczem litery oraz ilością jej wystąpień.
 
 const finalPeople = modifyPeopleWithNicknames(peopleWithNicknames);
-// console.log(finalPeople);
 
-console.log(peopleWithNicknames);
+function findMostCommonLetter(text) {
+  const counts = {};
+  const cleanText = text.toLowerCase().replace(/\s/g, "");
+
+  let maxCount = 0;
+  let mostCommonLetter = "";
+
+  // Zliczaj wystąpienia każdej litery w tych polach i znajdź najczęściej występującą literę.
+
+  for (const char of cleanText) {
+    if (char >= "a" && char <= "z") {
+      counts[char] = (counts[char] || 0) + 1;
+
+      const currentCount = counts[char];
+
+      // - Jeżeli dwie lub więcej liter mają tę samą liczbę wystąpień i jest to najwyższa wartość, wybierz literę, która występuje pierwsza w alfabecie.
+
+      if (
+        currentCount > maxCount ||
+        (currentCount === maxCount && char < mostCommonLetter)
+      ) {
+        maxCount = currentCount;
+        mostCommonLetter = char;
+      }
+    }
+  }
+
+  if (mostCommonLetter) {
+    return { [mostCommonLetter]: maxCount };
+  }
+  return {};
+}
+
+// Funkcja główna przetwarzająca całą tablicę osób
+function analyzeModifiedPeople(finalPeople) {
+  // - Przetwarzaj każdy obiekt osoby, analizując pola firstName, lastName, i nickname.
+  return finalPeople.map((person) => {
+    // 1. Łączenie wartości z wybranych pól
+    const combinedText = person.firstName + person.lastName + person.nickname;
+
+    // 2. Znajdź najczęściej występującą literę (Zliczaj wystąpienia...)
+    const commonLetterResult = findMostCommonLetter(combinedText);
+
+    // Zwróć nową tablicę z obiektami, które zawierają imię, nazwisko, pseudonim oraz dodaj nową właściwość do każdej osoby o nazwie mostCommonLetter, której wartością będzie obiekt z kluczem litery oraz ilością jej wystąpień.
+    return {
+      firstName: person.firstName,
+      lastName: person.lastName,
+      nickname: person.nickname,
+      // W poleceniu nie ma nic na temat age, ale w przykladzie z danymi wyjsciowymi jest podane age wiec zostawiam to zakomentowane:
+      // age: person.age,
+
+      mostCommonLetter: commonLetterResult,
+    };
+  });
+}
+
+const analyzedPeople = analyzeModifiedPeople(finalPeople);
+console.log(analyzedPeople);
